@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { AboutUs } from './components/AboutUs';
@@ -11,10 +12,12 @@ import { Gallery } from './components/Gallery';
 import { InquiryForm } from './components/InquiryForm';
 import { ContactAndLocation } from './components/ContactAndLocation';
 import { Footer } from './components/Footer';
+import { SnowEffect } from './components/SnowEffect';
 import { Phone, MessageSquare } from 'lucide-react';
 import { BUSINESS_INFO } from './data/mockData';
 
-export default function App() {
+function AppContent() {
+  const { isDark } = useTheme();
   const [inquiryPrefill, setInquiryPrefill] = useState<{
     cropType?: string;
     quantity?: string;
@@ -32,7 +35,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] font-sans text-zinc-200 selection:bg-white selection:text-black">
+    <div className={`min-h-screen font-sans transition-colors duration-300 relative overflow-x-hidden ${
+      isDark 
+        ? 'bg-[#070a0f] text-slate-200 selection:bg-[#e5c158] selection:text-black' 
+        : 'bg-[#f4f8fc] text-slate-800 selection:bg-sky-200 selection:text-sky-900'
+    }`}>
+      {/* Ambient Falling Snow Animation Overlay */}
+      <SnowEffect />
+
       {/* Navigation Header */}
       <Header onNavigate={scrollToSection} />
 
@@ -59,7 +69,7 @@ export default function App() {
           href={BUSINESS_INFO.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-xl hover:scale-110 transition-all flex items-center justify-center group"
+          className="p-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl hover:scale-110 transition-all flex items-center justify-center group"
           aria-label="Chat on WhatsApp"
           title="Chat on WhatsApp with Vishal Choudhary"
         >
@@ -68,7 +78,11 @@ export default function App() {
 
         <a
           href={`tel:${BUSINESS_INFO.phone}`}
-          className="p-3.5 bg-slate-900 hover:bg-slate-800 text-emerald-400 rounded-full shadow-xl hover:scale-110 border border-slate-700 transition-all flex items-center justify-center group"
+          className={`p-3.5 rounded-full shadow-2xl hover:scale-110 border transition-all flex items-center justify-center group ${
+            isDark 
+              ? 'bg-slate-900 hover:bg-slate-800 text-emerald-400 border-slate-700' 
+              : 'bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-300 shadow-md'
+          }`}
           aria-label="Call Owner"
           title={`Call Owner ${BUSINESS_INFO.owner} (${BUSINESS_INFO.phone})`}
         >
@@ -78,3 +92,12 @@ export default function App() {
     </div>
   );
 }
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
+
