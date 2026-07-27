@@ -1,0 +1,6 @@
+{
+  "name": "Vihaan Cold Storage",
+  "description": "State-of-the-art cold storage facility in Silawar, Shamli specializing in vegetables, seeds, and potatoes preservation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
