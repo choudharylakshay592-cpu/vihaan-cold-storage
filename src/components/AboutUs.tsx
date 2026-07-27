@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { BUSINESS_INFO } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 import { ShieldCheck, Award, MapPin, Phone, UserCheck, Snowflake, Building2, CheckCircle, ArrowRight } from 'lucide-react';
@@ -12,9 +13,16 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onNavigate }) => {
   const { isDark } = useTheme();
 
   return (
-    <section id="about" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-white text-slate-700 border-sky-100'
-    }`}>
+    <motion.section
+      id="about"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-white text-slate-700 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -59,21 +67,27 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onNavigate }) => {
                     <h3 className={`text-lg font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>{BUSINESS_INFO.owner}</h3>
                     <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{BUSINESS_INFO.location}</p>
                   </div>
-                  <a
+                  <motion.a
                     href={`tel:${BUSINESS_INFO.phone}`}
-                    className="px-4 py-2 bg-[#0c3825] hover:bg-[#124d35] text-white font-bold text-xs uppercase tracking-wider rounded-lg border border-emerald-500/30 transition-all flex items-center space-x-1"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-4 py-2 bg-[#0c3825] hover:bg-[#124d35] text-white font-bold text-xs uppercase tracking-wider rounded-lg border border-emerald-500/30 transition-all flex items-center space-x-1 shadow-md"
                   >
                     <Phone className="w-3.5 h-3.5 mr-1 text-emerald-400" />
                     <span>Call Direct</span>
-                  </a>
+                  </motion.a>
                 </div>
               </div>
             </div>
 
             {/* Floating Metric Card */}
-            <div className={`hidden sm:block absolute -top-6 -left-6 backdrop-blur-xl p-5 border rounded-2xl max-w-[210px] shadow-2xl ${
-              isDark ? 'bg-[#0a0e17]/90 border-[#d4af37]/30 text-white' : 'bg-white/95 border-sky-200 text-slate-900 shadow-xl'
-            }`}>
+            <motion.div
+              whileHover={{ y: -4, scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className={`hidden sm:block absolute -top-6 -left-6 backdrop-blur-xl p-5 border rounded-2xl max-w-[210px] shadow-2xl ${
+                isDark ? 'bg-[#0a0e17]/90 border-[#d4af37]/30 text-white' : 'bg-white/95 border-sky-200 text-slate-900 shadow-xl'
+              }`}
+            >
               <div className="flex items-center space-x-2 font-serif italic text-2xl">
                 <Snowflake className={`w-5 h-5 ${isDark ? 'text-[#e5c158]' : 'text-sky-600'}`} />
                 <span className={isDark ? 'text-[#e5c158]' : 'text-sky-700'}>24/7</span>
@@ -81,7 +95,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onNavigate }) => {
               <p className={`text-[10px] uppercase tracking-wider mt-1 font-light leading-snug ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 Continuous Climate Control & Diesel Backup
               </p>
-            </div>
+            </motion.div>
           </div>
 
           {/* About Text & Highlights */}
@@ -104,58 +118,43 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onNavigate }) => {
 
             {/* Core Value Pillars */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className={`p-4 border rounded-xl flex items-start space-x-3 ${
-                isDark ? 'bg-[#0e131d]/80 border-[#d4af37]/15' : 'bg-white border-sky-100 shadow-sm'
-              }`}>
-                <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                <div>
-                  <h4 className={`font-semibold text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>Advanced Preservation</h4>
-                  <p className={`text-xs mt-1 font-light ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Automated refrigeration coils & digital RH controllers.</p>
-                </div>
-              </div>
-
-              <div className={`p-4 border rounded-xl flex items-start space-x-3 ${
-                isDark ? 'bg-[#0e131d]/80 border-[#d4af37]/15' : 'bg-white border-sky-100 shadow-sm'
-              }`}>
-                <ShieldCheck className={`w-4 h-4 mt-0.5 shrink-0 ${isDark ? 'text-[#e5c158]' : 'text-emerald-600'}`} />
-                <div>
-                  <h4 className={`font-semibold text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>Hygienic Chambers</h4>
-                  <p className={`text-xs mt-1 font-light ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Sanitized rooms, air scrubbers, zero rot protocol.</p>
-                </div>
-              </div>
-
-              <div className={`p-4 border rounded-xl flex items-start space-x-3 ${
-                isDark ? 'bg-[#0e131d]/80 border-[#d4af37]/15' : 'bg-white border-sky-100 shadow-sm'
-              }`}>
-                <UserCheck className={`w-4 h-4 mt-0.5 shrink-0 ${isDark ? 'text-[#e5c158]' : 'text-emerald-600'}`} />
-                <div>
-                  <h4 className={`font-semibold text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>Transparent Trust</h4>
-                  <p className={`text-xs mt-1 font-light ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Direct owner logging & personalized stock care.</p>
-                </div>
-              </div>
-
-              <div className={`p-4 border rounded-xl flex items-start space-x-3 ${
-                isDark ? 'bg-[#0e131d]/80 border-[#d4af37]/15' : 'bg-white border-sky-100 shadow-sm'
-              }`}>
-                <MapPin className={`w-4 h-4 mt-0.5 shrink-0 ${isDark ? 'text-[#e5c158]' : 'text-emerald-600'}`} />
-                <div>
-                  <h4 className={`font-semibold text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>Silawar Approach</h4>
-                  <p className={`text-xs mt-1 font-light ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Wide approach roads for 10-wheeler trucks and trolleys.</p>
-                </div>
-              </div>
+              {[
+                { title: 'Advanced Preservation', desc: 'Automated refrigeration coils & digital RH controllers.', icon: <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /> },
+                { title: 'Hygienic Chambers', desc: 'Sanitized rooms, air scrubbers, zero rot protocol.', icon: <ShieldCheck className={`w-4 h-4 mt-0.5 shrink-0 ${isDark ? 'text-[#e5c158]' : 'text-emerald-600'}`} /> },
+                { title: 'Transparent Trust', desc: 'Direct owner logging & personalized stock care.', icon: <UserCheck className={`w-4 h-4 mt-0.5 shrink-0 ${isDark ? 'text-[#e5c158]' : 'text-emerald-600'}`} /> },
+                { title: 'Silawar Approach', desc: 'Wide approach roads for 10-wheeler trucks and trolleys.', icon: <MapPin className={`w-4 h-4 mt-0.5 shrink-0 ${isDark ? 'text-[#e5c158]' : 'text-emerald-600'}`} /> }
+              ].map((pillar, idx) => (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -3, scale: 1.015 }}
+                  className={`p-4 border rounded-xl flex items-start space-x-3 transition-all ${
+                    isDark ? 'bg-[#0e131d]/80 border-[#d4af37]/15 hover:border-[#e5c158]/40' : 'bg-white border-sky-100 shadow-sm hover:border-emerald-300'
+                  }`}
+                >
+                  {pillar.icon}
+                  <div>
+                    <h4 className={`font-semibold text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>{pillar.title}</h4>
+                    <p className={`text-xs mt-1 font-light ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{pillar.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
             {/* Action CTA */}
             <div className="pt-2 flex flex-wrap gap-4">
-              <button
+              <motion.button
                 onClick={() => onNavigate('inquire')}
-                className="px-6 py-3.5 bg-[#0c3825] hover:bg-[#124d35] text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-emerald-500/30 transition-all flex items-center shadow-md"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="px-6 py-3.5 bg-[#0c3825] hover:bg-[#124d35] text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-emerald-500/30 transition-all flex items-center shadow-md cursor-pointer"
               >
                 Book Storage Space
                 <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
-              <a
+              </motion.button>
+              <motion.a
                 href={`tel:${BUSINESS_INFO.phone}`}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
                 className={`px-6 py-3.5 font-semibold text-xs uppercase tracking-wider border rounded-xl transition-all ${
                   isDark 
                     ? 'text-[#e5c158] border-[#e5c158]/40 hover:bg-[#e5c158]/10' 
@@ -163,16 +162,17 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onNavigate }) => {
                 }`}
               >
                 Call Proprietor: {BUSINESS_INFO.phone}
-              </a>
+              </motion.a>
             </div>
 
           </div>
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

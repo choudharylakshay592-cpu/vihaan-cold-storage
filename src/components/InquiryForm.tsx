@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Send, CheckCircle2, Phone, MessageSquare, FileText } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
@@ -80,10 +81,18 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ initialData }) => {
   };
 
   return (
-    <section id="inquire" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-white text-slate-700 border-sky-100'
-    }`}>
+    <motion.section
+      id="inquire"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-white text-slate-700 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -302,14 +311,16 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ initialData }) => {
               </div>
 
               <div className="pt-2">
-                <button
+                <motion.button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 bg-[#0c3825] hover:bg-[#124d35] text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-emerald-500/30 transition-all flex items-center justify-center space-x-2 shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 bg-[#0c3825] hover:bg-[#124d35] text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-emerald-500/30 transition-all flex items-center justify-center space-x-2 shadow-lg cursor-pointer"
                 >
                   <Send className="w-4 h-4 text-[#e5c158]" />
                   <span>{loading ? 'Submitting Inquiry...' : 'Submit Storage Inquiry'}</span>
-                </button>
+                </motion.button>
               </div>
 
             </form>
@@ -317,9 +328,10 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ initialData }) => {
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

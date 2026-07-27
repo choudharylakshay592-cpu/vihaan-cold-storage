@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { FACILITY_SPECS } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 import { Thermometer, Wind, Droplets, Truck, Zap, Cpu as CpuIcon } from 'lucide-react';
@@ -7,9 +8,16 @@ export const FacilitySpecs: React.FC = () => {
   const { isDark } = useTheme();
 
   return (
-    <section id="facility" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#0a0e17] text-white border-[#d4af37]/15' : 'bg-slate-50 text-slate-800 border-sky-100'
-    }`}>
+    <motion.section
+      id="facility"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#0a0e17] text-white border-[#d4af37]/15' : 'bg-slate-50 text-slate-800 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -31,9 +39,11 @@ export const FacilitySpecs: React.FC = () => {
         {/* Feature Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {FACILITY_SPECS.map((spec, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`border rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 group shadow-lg ${
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className={`border rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 group shadow-lg cursor-pointer ${
                 isDark 
                   ? 'bg-[#0e131d]/80 border-[#d4af37]/20 hover:border-[#e5c158]/50 backdrop-blur-md' 
                   : 'bg-white border-sky-100 hover:border-emerald-300 hover:shadow-xl'
@@ -72,16 +82,19 @@ export const FacilitySpecs: React.FC = () => {
                 <span>System Status</span>
                 <span className="text-emerald-500 font-bold">Verified 100%</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* 24x7 Genset & Safety Banner */}
-        <div className={`mt-12 border rounded-2xl p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl ${
-          isDark
-            ? 'bg-gradient-to-r from-[#0c2e1f] to-[#081e14] border-emerald-500/30 text-white'
-            : 'bg-gradient-to-r from-emerald-800 to-teal-900 border-emerald-700 text-white'
-        }`}>
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          className={`mt-12 border rounded-2xl p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl ${
+            isDark
+              ? 'bg-gradient-to-r from-[#0c2e1f] to-[#081e14] border-emerald-500/30 text-white'
+              : 'bg-gradient-to-r from-emerald-800 to-teal-900 border-emerald-700 text-white'
+          }`}
+        >
           <div className="flex items-center space-x-4">
             <div className="p-3.5 bg-[#071710] border border-emerald-500/30 rounded-xl text-emerald-400 shrink-0">
               <Zap className="w-6 h-6 text-emerald-400" />
@@ -104,12 +117,13 @@ export const FacilitySpecs: React.FC = () => {
               <p className="text-lg font-serif italic text-[#e5c158]">24/7 Active</p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

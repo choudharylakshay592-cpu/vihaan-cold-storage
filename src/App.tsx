@@ -13,8 +13,7 @@ import { InquiryForm } from './components/InquiryForm';
 import { ContactAndLocation } from './components/ContactAndLocation';
 import { Footer } from './components/Footer';
 import { SnowEffect } from './components/SnowEffect';
-import { Phone, MessageSquare } from 'lucide-react';
-import { BUSINESS_INFO } from './data/mockData';
+import { FloatingContact } from './components/FloatingContact';
 
 function AppContent() {
   const { isDark } = useTheme();
@@ -63,32 +62,8 @@ function AppContent() {
       {/* Footer */}
       <Footer onNavigate={scrollToSection} />
 
-      {/* Fixed Floating Quick Contact Bar (Mobile & Quick Access) */}
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col space-y-2.5">
-        <a
-          href={BUSINESS_INFO.whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl hover:scale-110 transition-all flex items-center justify-center group"
-          aria-label="Chat on WhatsApp"
-          title="Chat on WhatsApp with Vishal Choudhary"
-        >
-          <MessageSquare className="w-6 h-6" />
-        </a>
-
-        <a
-          href={`tel:${BUSINESS_INFO.phone}`}
-          className={`p-3.5 rounded-full shadow-2xl hover:scale-110 border transition-all flex items-center justify-center group ${
-            isDark 
-              ? 'bg-slate-900 hover:bg-slate-800 text-emerald-400 border-slate-700' 
-              : 'bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-300 shadow-md'
-          }`}
-          aria-label="Call Owner"
-          title={`Call Owner ${BUSINESS_INFO.owner} (${BUSINESS_INFO.phone})`}
-        >
-          <Phone className="w-6 h-6 animate-pulse" />
-        </a>
-      </div>
+      {/* Floating Quick Contact Widget (WhatsApp, Gmail & Direct Phone) */}
+      <FloatingContact />
     </div>
   );
 }

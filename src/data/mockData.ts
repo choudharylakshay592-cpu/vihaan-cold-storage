@@ -10,6 +10,7 @@ export const BUSINESS_INFO = {
   owner: "Vishal Choudhary",
   phone: "8218037615",
   formattedPhone: "+91 82180 37615",
+  email: "coldstoragevihaan@gmail.com",
   whatsappUrl: "https://wa.me/918218037615?text=Hello%20Vishal%20Choudhary,%20I%20want%20to%20inquire%20about%20cold%20storage%20space%20at%20Vihaan%20Cold%20Storage.",
   location: "Silawar, District Shamli, Uttar Pradesh",
   fullAddress: "Vihaan Cold Storage, Silawar Road, Shamli, Uttar Pradesh - 247776",

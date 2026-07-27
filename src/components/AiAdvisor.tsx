@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Bot, Send, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -38,10 +39,18 @@ export const AiAdvisor: React.FC = () => {
   };
 
   return (
-    <section id="ai-advisor" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-white text-slate-700 border-sky-100'
-    }`}>
+    <motion.section
+      id="ai-advisor"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-white text-slate-700 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -157,44 +166,52 @@ export const AiAdvisor: React.FC = () => {
           </div>
 
           {/* AI Response Display */}
-          {(advice || loading) && (
-            <div className={`mt-8 pt-6 border-t ${isDark ? 'border-[#d4af37]/15' : 'border-sky-200'}`}>
-              <div className={`flex items-center space-x-2 text-xs font-bold uppercase tracking-wider mb-3 ${
-                isDark ? 'text-[#e5c158]' : 'text-emerald-800'
-              }`}>
-                <Bot className={`w-4 h-4 ${isDark ? 'text-[#e5c158]' : 'text-emerald-800'}`} />
-                <span>Vihaan AI Storage Recommendation:</span>
-              </div>
-
-              {loading ? (
-                <div className={`p-6 border rounded-xl text-xs flex items-center space-x-3 ${
-                  isDark ? 'bg-[#0a0d14] border-[#d4af37]/15 text-slate-300' : 'bg-white border-sky-200 text-slate-600'
+          <AnimatePresence mode="wait">
+            {(advice || loading) && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className={`mt-8 pt-6 border-t ${isDark ? 'border-[#d4af37]/15' : 'border-sky-200'}`}
+              >
+                <div className={`flex items-center space-x-2 text-xs font-bold uppercase tracking-wider mb-3 ${
+                  isDark ? 'text-[#e5c158]' : 'text-emerald-800'
                 }`}>
-                  <RefreshCw className={`w-4 h-4 animate-spin ${isDark ? 'text-[#e5c158]' : 'text-emerald-700'}`} />
-                  <span>Consulting agronomy models for {selectedCrop}...</span>
+                  <Bot className={`w-4 h-4 ${isDark ? 'text-[#e5c158]' : 'text-emerald-800'}`} />
+                  <span>Vihaan AI Storage Recommendation:</span>
                 </div>
-              ) : (
-                <div className={`p-6 border rounded-xl text-xs sm:text-sm leading-relaxed whitespace-pre-line font-light ${
-                  isDark ? 'bg-[#0a0d14] border-[#d4af37]/15 text-slate-200' : 'bg-white border-sky-200 text-slate-800 shadow-sm'
-                }`}>
-                  {advice}
-                </div>
-              )}
 
-              <p className={`text-[10px] uppercase tracking-wider mt-3 flex items-center ${
-                isDark ? 'text-slate-400' : 'text-slate-500'
-              }`}>
-                <ShieldCheck className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-                Recommendations aligned with Vihaan Cold Storage micro-climate technology in Silawar, Shamli.
-              </p>
-            </div>
-          )}
+                {loading ? (
+                  <div className={`p-6 border rounded-xl text-xs flex items-center space-x-3 ${
+                    isDark ? 'bg-[#0a0d14] border-[#d4af37]/15 text-slate-300' : 'bg-white border-sky-200 text-slate-600'
+                  }`}>
+                    <RefreshCw className={`w-4 h-4 animate-spin ${isDark ? 'text-[#e5c158]' : 'text-emerald-700'}`} />
+                    <span>Consulting agronomy models for {selectedCrop}...</span>
+                  </div>
+                ) : (
+                  <div className={`p-6 border rounded-xl text-xs sm:text-sm leading-relaxed whitespace-pre-line font-light ${
+                    isDark ? 'bg-[#0a0d14] border-[#d4af37]/15 text-slate-200' : 'bg-white border-sky-200 text-slate-800 shadow-sm'
+                  }`}>
+                    {advice}
+                  </div>
+                )}
+
+                <p className={`text-[10px] uppercase tracking-wider mt-3 flex items-center ${
+                  isDark ? 'text-slate-400' : 'text-slate-500'
+                }`}>
+                  <ShieldCheck className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                  Recommendations aligned with Vihaan Cold Storage micro-climate technology in Silawar, Shamli.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

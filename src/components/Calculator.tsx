@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { Calculator as CalcIcon, MessageSquare, ArrowRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -35,10 +36,18 @@ export const Calculator: React.FC<CalculatorProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section id="calculator" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#0a0e17] text-slate-300 border-[#d4af37]/15' : 'bg-slate-50 text-slate-700 border-sky-100'
-    }`}>
+    <motion.section
+      id="calculator"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#0a0e17] text-slate-300 border-[#d4af37]/15' : 'bg-slate-50 text-slate-700 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -236,21 +245,25 @@ export const Calculator: React.FC<CalculatorProps> = ({ onNavigate }) => {
 
               {/* Action Buttons */}
               <div className="mt-8 space-y-3 pt-4 border-t border-[#d4af37]/15">
-                <button
+                <motion.button
                   onClick={handleBookNow}
-                  className="w-full py-3.5 bg-[#0c3825] hover:bg-[#124d35] text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-emerald-500/30 transition-all flex items-center justify-center space-x-2 shadow-md"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="w-full py-3.5 bg-[#0c3825] hover:bg-[#124d35] text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-emerald-500/30 transition-all flex items-center justify-center space-x-2 shadow-md cursor-pointer"
                 >
                   <span>Book Chamber with This Estimate</span>
                   <ArrowRight className="w-4 h-4 text-emerald-400" />
-                </button>
+                </motion.button>
 
-                <button
+                <motion.button
                   onClick={handleWhatsAppQuote}
-                  className="w-full py-3.5 bg-transparent text-[#e5c158] font-semibold text-xs uppercase tracking-wider border border-[#e5c158]/40 rounded-xl hover:bg-[#e5c158]/10 transition-all flex items-center justify-center space-x-2"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="w-full py-3.5 bg-transparent text-[#e5c158] font-semibold text-xs uppercase tracking-wider border border-[#e5c158]/40 rounded-xl hover:bg-[#e5c158]/10 transition-all flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <MessageSquare className="w-4 h-4 text-[#e5c158]" />
                   <span>WhatsApp Quote to Proprietor</span>
-                </button>
+                </motion.button>
               </div>
 
             </div>
@@ -259,9 +272,10 @@ export const Calculator: React.FC<CalculatorProps> = ({ onNavigate }) => {
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

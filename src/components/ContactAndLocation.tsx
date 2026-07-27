@@ -1,17 +1,26 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { BUSINESS_INFO, FAQS } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
-import { Phone, MapPin, Clock, MessageSquare, ShieldCheck, Navigation, HelpCircle, ChevronDown } from 'lucide-react';
+import { Phone, MapPin, Clock, MessageSquare, Mail, ShieldCheck, Navigation, HelpCircle, ChevronDown } from 'lucide-react';
 
 export const ContactAndLocation: React.FC = () => {
   const [openFaq, setOpenFaq] = React.useState<number | null>(0);
   const { isDark } = useTheme();
 
   return (
-    <section id="contact" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#0a0e17] text-slate-300 border-[#d4af37]/15' : 'bg-slate-50 text-slate-700 border-sky-100'
-    }`}>
+    <motion.section
+      id="contact"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#0a0e17] text-slate-300 border-[#d4af37]/15' : 'bg-slate-50 text-slate-700 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -96,6 +105,30 @@ export const ContactAndLocation: React.FC = () => {
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#0c3825] px-3 py-1.5 rounded-lg border border-emerald-500/30">
                     Open Chat
+                  </span>
+                </a>
+
+                <a
+                  href={`mailto:${BUSINESS_INFO.email}?subject=Cold%20Storage%20Space%20Inquiry`}
+                  className={`p-4 border rounded-xl flex items-center justify-between transition-all group shadow-inner ${
+                    isDark ? 'bg-[#0a0d14] hover:bg-[#0c101a] border-[#d4af37]/15' : 'bg-sky-50/60 hover:bg-sky-100/60 border-sky-200'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2.5 bg-red-950/80 text-red-400 rounded-lg border border-red-500/30">
+                      <Mail className="w-4 h-4 text-red-400" />
+                    </div>
+                    <div>
+                      <p className={`text-[10px] uppercase tracking-wider font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Official Gmail</p>
+                      <p className={`text-sm font-bold transition-colors ${
+                        isDark ? 'text-white group-hover:text-[#e5c158]' : 'text-slate-900 group-hover:text-emerald-700'
+                      }`}>
+                        {BUSINESS_INFO.email}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-red-800 hover:bg-red-700 px-3 py-1.5 rounded-lg border border-red-500/30">
+                    Send Email
                   </span>
                 </a>
 
@@ -206,24 +239,32 @@ export const ContactAndLocation: React.FC = () => {
                   >
                     <button
                       onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                      className={`w-full text-left p-4 font-serif text-xs sm:text-sm flex items-center justify-between transition-colors ${
+                      className={`w-full text-left p-4 font-serif text-xs sm:text-sm flex items-center justify-between transition-colors cursor-pointer ${
                         isDark 
                           ? 'bg-[#0a0d14] hover:bg-[#0e131d] text-white' 
                           : 'bg-white hover:bg-sky-50 text-slate-900'
                       }`}
                     >
                       <span>{faq.q}</span>
-                      <ChevronDown className={`w-4 h-4 transition-transform ${isDark ? 'text-[#e5c158]' : 'text-emerald-700'} ${openFaq === idx ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isDark ? 'text-[#e5c158]' : 'text-emerald-700'} ${openFaq === idx ? 'rotate-180' : ''}`} />
                     </button>
-                    {openFaq === idx && (
-                      <div className={`p-4 text-xs leading-relaxed border-t font-light ${
-                        isDark 
-                          ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' 
-                          : 'bg-slate-50 text-slate-700 border-sky-100'
-                      }`}>
-                        {faq.a}
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {openFaq === idx && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className={`p-4 text-xs leading-relaxed border-t font-light overflow-hidden ${
+                            isDark 
+                              ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' 
+                              : 'bg-slate-50 text-slate-700 border-sky-100'
+                          }`}
+                        >
+                          {faq.a}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ))}
               </div>
@@ -233,9 +274,10 @@ export const ContactAndLocation: React.FC = () => {
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

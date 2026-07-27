@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { GALLERY_IMAGES } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 import { Image as ImageIcon, ZoomIn, X } from 'lucide-react';
@@ -8,9 +9,16 @@ export const Gallery: React.FC = () => {
   const { isDark } = useTheme();
 
   return (
-    <section id="gallery" className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
-      isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-slate-50 text-slate-700 border-sky-100'
-    }`}>
+    <motion.section
+      id="gallery"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`py-16 lg:py-24 border-b transition-colors duration-300 ${
+        isDark ? 'bg-[#080b11] text-slate-300 border-[#d4af37]/15' : 'bg-slate-50 text-slate-700 border-sky-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -32,9 +40,11 @@ export const Gallery: React.FC = () => {
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {GALLERY_IMAGES.map((img, idx) => (
-            <div
+            <motion.div
               key={idx}
               onClick={() => setSelectedImg(img.src)}
+              whileHover={{ y: -6, scale: 1.015 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className={`group relative rounded-2xl cursor-pointer h-[280px] sm:h-[360px] overflow-hidden shadow-xl border ${
                 isDark ? 'bg-[#0e131d] border-[#d4af37]/20' : 'bg-white border-sky-200'
               }`}
@@ -65,36 +75,50 @@ export const Gallery: React.FC = () => {
                   <ZoomIn className="w-4 h-4" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Lightbox Modal */}
-        {selectedImg && (
-          <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-            <div className={`relative max-w-5xl w-full border rounded-2xl p-2 overflow-hidden shadow-2xl ${
-              isDark ? 'bg-[#0a0d14] border-[#d4af37]/30' : 'bg-slate-900 border-sky-300'
-            }`}>
-              <button
-                onClick={() => setSelectedImg(null)}
-                className="absolute top-4 right-4 p-3 bg-slate-900/90 border border-[#e5c158] text-[#e5c158] rounded-xl transition-colors z-10"
+        <AnimatePresence>
+          {selectedImg && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedImg(null)}
+              className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className={`relative max-w-5xl w-full border rounded-2xl p-2 overflow-hidden shadow-2xl ${
+                  isDark ? 'bg-[#0a0d14] border-[#d4af37]/30' : 'bg-slate-900 border-sky-300'
+                }`}
               >
-                <X className="w-5 h-5" />
-              </button>
-              <img
-                src={selectedImg}
-                alt="Enlarged Facility View"
-                className="w-full max-h-[80vh] object-contain rounded-xl"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          </div>
-        )}
+                <button
+                  onClick={() => setSelectedImg(null)}
+                  className="absolute top-4 right-4 p-3 bg-slate-900/90 border border-[#e5c158] text-[#e5c158] rounded-xl transition-colors z-10 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+                <img
+                  src={selectedImg}
+                  alt="Enlarged Facility View"
+                  className="w-full max-h-[80vh] object-contain rounded-xl"
+                  referrerPolicy="no-referrer"
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
-    </section>
+    </motion.section>
   );
 };
+
 
 
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, MapPin, MessageSquare, Menu, X, ShieldCheck, ChevronRight, Sprout, Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { BUSINESS_INFO } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 
@@ -9,7 +10,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
 
   const navLinks = [
     { name: 'Home', id: 'hero' },
@@ -83,8 +84,10 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
-          <div 
+          <motion.div 
             onClick={() => handleLinkClick('hero')}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="flex items-center space-x-3 cursor-pointer group"
           >
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-md transition-all ${
@@ -107,31 +110,35 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                 SILAWAR, SHAMLI (U.P.)
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Nav links */}
           <nav className="hidden lg:flex items-center space-x-1 lg:space-x-6">
             {navLinks.map((link) => (
-              <button
+              <motion.button
                 key={link.id}
                 onClick={() => handleLinkClick(link.id)}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.96 }}
                 className={`px-2 py-1 text-sm font-medium transition-colors relative group ${
                   isDark ? 'text-slate-300 hover:text-[#e5c158]' : 'text-slate-700 hover:text-emerald-700'
                 }`}
               >
                 {link.name}
-                <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all group-hover:w-full ${
+                <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${
                   isDark ? 'bg-[#e5c158]' : 'bg-emerald-600'
                 }`} />
-              </button>
+              </motion.button>
             ))}
           </nav>
 
           {/* CTA & Theme Controls */}
           <div className="hidden sm:flex items-center space-x-3">
             {/* Theme Toggle Button */}
-            <button
+            <motion.button
               onClick={toggleTheme}
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.9, rotate: -15 }}
               className={`p-2.5 rounded-full border transition-all ${
                 isDark 
                   ? 'bg-[#0e131d] border-[#d4af37]/30 text-[#e5c158] hover:bg-[#131d33]' 
@@ -139,11 +146,13 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
               }`}
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {isDark ? <Sun className="w-4 h-4 text-amber-400 animate-pulse" /> : <Moon className="w-4 h-4 text-sky-800" />}
-            </button>
+              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-800" />}
+            </motion.button>
 
-            <a
+            <motion.a
               href={`tel:${BUSINESS_INFO.phone}`}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               className={`inline-flex items-center px-4 py-2.5 text-xs font-semibold tracking-wider rounded-full transition-all shadow-sm group ${
                 isDark
                   ? 'text-[#e5c158] border border-[#e5c158]/50 hover:bg-[#e5c158]/10'
@@ -152,10 +161,12 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
             >
               <Phone className="w-3.5 h-3.5 mr-1.5 text-[#e5c158] group-hover:rotate-12 transition-transform" />
               Call Now
-            </a>
+            </motion.a>
 
-            <button
+            <motion.button
               onClick={() => handleLinkClick('inquire')}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               className={`inline-flex items-center px-4 py-2.5 text-xs font-semibold tracking-wider text-white rounded-full transition-all shadow-md ${
                 isDark
                   ? 'bg-[#0c3825] hover:bg-[#124d35] border border-[#21704c]/60'
@@ -164,19 +175,20 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
             >
               Book Space
               <ChevronRight className="w-3.5 h-3.5 ml-1" />
-            </button>
+            </motion.button>
           </div>
 
           {/* Mobile menu toggle */}
           <div className="flex lg:hidden items-center space-x-2">
-            <button
+            <motion.button
               onClick={toggleTheme}
+              whileTap={{ scale: 0.9 }}
               className={`p-2 rounded-lg border ${
                 isDark ? 'border-slate-800 text-amber-400' : 'border-slate-200 text-slate-800'
               }`}
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
+            </motion.button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`p-2 ${isDark ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-black'}`}
@@ -189,60 +201,69 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className={`lg:hidden border-b px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top duration-200 ${
-          isDark ? 'bg-[#0a0d14] border-[#d4af37]/20' : 'bg-white border-sky-100 shadow-xl'
-        }`}>
-          <div className={`p-4 border rounded-xl mb-3 ${
-            isDark ? 'bg-[#0e131d] border-[#d4af37]/20' : 'bg-sky-50/70 border-sky-200'
-          }`}>
-            <p className="text-[10px] uppercase tracking-widest text-[#e5c158] font-bold">Proprietor: {BUSINESS_INFO.owner}</p>
-            <p className={`text-xs mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{BUSINESS_INFO.location}</p>
-            <div className="flex items-center space-x-2 mt-3">
-              <a
-                href={`tel:${BUSINESS_INFO.phone}`}
-                className="flex-1 text-center py-2.5 bg-[#0c3825] text-white text-xs font-bold uppercase tracking-wider rounded-lg border border-emerald-500/30"
-              >
-                Call {BUSINESS_INFO.phone}
-              </a>
-              <a
-                href={BUSINESS_INFO.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`px-4 py-2.5 border text-xs font-bold uppercase tracking-wider rounded-lg ${
-                  isDark ? 'border-[#d4af37]/30 text-[#e5c158] hover:bg-[#d4af37]/10' : 'border-emerald-600 text-emerald-800 hover:bg-emerald-50'
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className={`lg:hidden border-b px-4 pt-3 pb-6 space-y-2 overflow-hidden ${
+              isDark ? 'bg-[#0a0d14] border-[#d4af37]/20' : 'bg-white border-sky-100 shadow-xl'
+            }`}
+          >
+            <div className={`p-4 border rounded-xl mb-3 ${
+              isDark ? 'bg-[#0e131d] border-[#d4af37]/20' : 'bg-sky-50/70 border-sky-200'
+            }`}>
+              <p className="text-[10px] uppercase tracking-widest text-[#e5c158] font-bold">Proprietor: {BUSINESS_INFO.owner}</p>
+              <p className={`text-xs mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{BUSINESS_INFO.location}</p>
+              <div className="flex items-center space-x-2 mt-3">
+                <a
+                  href={`tel:${BUSINESS_INFO.phone}`}
+                  className="flex-1 text-center py-2.5 bg-[#0c3825] text-white text-xs font-bold uppercase tracking-wider rounded-lg border border-emerald-500/30"
+                >
+                  Call {BUSINESS_INFO.phone}
+                </a>
+                <a
+                  href={BUSINESS_INFO.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`px-4 py-2.5 border text-xs font-bold uppercase tracking-wider rounded-lg ${
+                    isDark ? 'border-[#d4af37]/30 text-[#e5c158] hover:bg-[#d4af37]/10' : 'border-emerald-600 text-emerald-800 hover:bg-emerald-50'
+                  }`}
+                >
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => handleLinkClick(link.id)}
+                className={`block w-full text-left px-4 py-2.5 text-sm font-medium transition-colors rounded-lg ${
+                  isDark ? 'text-slate-300 hover:text-[#e5c158] hover:bg-slate-900/50' : 'text-slate-800 hover:text-emerald-700 hover:bg-sky-50'
                 }`}
               >
-                WhatsApp
-              </a>
+                {link.name}
+              </button>
+            ))}
+
+            <div className="pt-2">
+              <button
+                onClick={() => handleLinkClick('inquire')}
+                className="w-full py-3 text-center font-bold text-xs uppercase tracking-widest text-white bg-[#0c3825] border border-emerald-500/30 rounded-xl hover:bg-[#124d35]"
+              >
+                Inquire / Book Storage Space
+              </button>
             </div>
-          </div>
-
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => handleLinkClick(link.id)}
-              className={`block w-full text-left px-4 py-2.5 text-sm font-medium transition-colors rounded-lg ${
-                isDark ? 'text-slate-300 hover:text-[#e5c158] hover:bg-slate-900/50' : 'text-slate-800 hover:text-emerald-700 hover:bg-sky-50'
-              }`}
-            >
-              {link.name}
-            </button>
-          ))}
-
-          <div className="pt-2">
-            <button
-              onClick={() => handleLinkClick('inquire')}
-              className="w-full py-3 text-center font-bold text-xs uppercase tracking-widest text-white bg-[#0c3825] border border-emerald-500/30 rounded-xl hover:bg-[#124d35]"
-            >
-              Inquire / Book Storage Space
-            </button>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
+
 
 
 
